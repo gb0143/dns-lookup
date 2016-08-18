@@ -14,14 +14,26 @@ import java.util.Set;
  */
 @Configuration
 public class DNSConfiguration {
+
+    /**
+     * THe repository for data caching/retrieval
+     */
     @Autowired
     DNSResultRepository dnsResultRepository;
 
+    /**
+     * The DNS Resolver bean
+     * @return new DNSResolverObject;
+     */
     @Bean
     public DNSResolver dnsResolver() {
         return new DNSResolver(dnsTypeSet());
     }
 
+    /**
+     * A list of DNS Types
+     * @return the list fo DNS types
+     */
     @Bean
     public List<String> dnsTypes() {
         String[] dnsTypes= {
@@ -67,11 +79,19 @@ public class DNSConfiguration {
         return Arrays.asList(dnsTypes);
     }
 
+    /**
+     * The DNSType set populated from teh DNSTypes list
+     * @return A set of all DNSTypes
+     */
     @Bean
     public Set<String> dnsTypeSet() {
         return new HashSet<>(dnsTypes());
     }
 
+    /**
+     * The Mongo Cache
+     * @return The mongoCache object used for operations on the repository
+     */
     @Bean
     public MongoCache mongoCache() {
         return new MongoCache(dnsResultRepository);
